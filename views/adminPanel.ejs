@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News CMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div id="header-admin">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-10">
+                    <a href="#"><img class="logo w-25" src="http://localhost:8000/images/news.jpg"></a>
+                </div>
+                <!-- /LOGO -->
+                <!-- LOGO-Out -->
+                <div class="col-md-2 d-flex align-items-center">
+                    <a href="#" class="admin-logout">logout</a>
+                </div>
+                <!-- /LOGO-Out -->
+            </div>
+        </div>
+    </div>
+    <!-- /HEADER -->
+    <!-- Menu Bar -->
+    <div id="admin-menubar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="admin-menu">
+                        <li>
+                            <a href="#">Post</a>
+                        </li>
+                        <li>
+                            <a href="#">Category</a>
+                        </li>
+                        <li>
+                            <a href="#">Users</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Menu Bar -->
+
+    <div id="admin-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1 class="admin-heading">All Posts</h1>
+                </div>
+                <div class="col-md-2">
+                    <a class="add-new" href="http://localhost:8000/post/createpost">add post</a>
+                </div>
+                <div class="col-md-12">
+                    <table class="content-table">
+                        <thead>
+                            <th>S.No.</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                    <ul class='pagination admin-pagination'>
+                        <li class="active"><a>1</a></li>
+                        <li><a>2</a></li>
+                        <li><a>3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <%- include('partials/footer') %>
+        <script src="/js/admin.js"></script>
+</body>
+
+</html>

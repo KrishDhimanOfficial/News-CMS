@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div id="main-content">
+        <div class="container">
+            <!-- header -->
+            <%- include('partials/header') %>
+                <!-- header -->
+                <!-- navabar -->
+                <%- include('partials/navbar') %>
+                    <!-- navabar -->
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <!-- post-container -->
+                            <div class="post-container">
+                                <div class="post-content single-post">
+                                    <h3>
+                                        <%= post.title %>
+                                    </h3>
+                                    <div class="post-information">
+                                        <span>
+                                            <i class="fa fa-tags" aria-hidden="true"></i>
+                                            <%= post.categorie %>
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <a href='author.php'>Admin</a>
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            <%= post.formattedDate %>
+                                        </span>
+                                    </div>
+                                    <img class="single-feature-image"
+                                        src="http://localhost:8000/uploads/<%= post.image %>" alt="" />
+                                    <p class="description">
+                                    <%= post.description %>
+                                    </p>
+                                </div>
+
+                                <ul class='pagination'>
+                                    <li class="page-item"><a class="page-link" href="/">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="/">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="/">3</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- /post-container -->
+
+                        </div>
+                        <div id="sidebar" class="col-md-4">
+                            <!-- sidebar -->
+                            <%- include('partials/sidebar') %>
+                                <!-- sidebar -->
+                        </div>
+                    </div>
+        </div>
+
+    </div>
+    <%- include('partials/footer') %>
+        <script src="/js/script.js"></script>
+</body>
+
+</html>
