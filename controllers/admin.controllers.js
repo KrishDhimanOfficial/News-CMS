@@ -2,7 +2,7 @@ const admin = require('../Models/admin.collections')
 const post = require('../Models/posts.collections');
 const category = require('../Models/categorie.collection')
 const { v4: uuidv4 } = require('uuid')
-const { setUser } = require('../services/auth');
+const { setUser } = require('../service/auth');
 
 
 const handleAdminLogin = async (req, res) => {
@@ -83,7 +83,14 @@ const UpdatePost = async (req, res) => {
         res.render('updatePost', { error: 'Unsuccessful!' })
     }
 }
+const logout = (req, res) => {
+    res.clearCookie('uid');
+    res.redirect('/admin/login')
+}
 
-module.exports = { handleAdminLogin, deletePost, setPost, addcategory, findPostByCategorie, UpdatePost };
+module.exports = {
+    handleAdminLogin, deletePost, setPost, addcategory,
+    findPostByCategorie, UpdatePost, logout
+};
 
 

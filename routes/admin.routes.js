@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer')
-const LoginedUser = require('../middleware/checkLogin')
-const { handleAdminLogin, deletePost, setPost, UpdatePost, findPostByCategorie, addcategory } = require('../controllers/admin.controllers')
+const multer = require('multer');
+const session = require('express-session');
+const LoginedUser = require('../middleware/checkLogin');
+const login = require('../middleware/login');
+const { handleAdminLogin, deletePost, setPost, UpdatePost,
+    findPostByCategorie, addcategory, logout } = require('../controllers/admin.controllers')
 
 
 const storage = multer.diskStorage({
@@ -15,28 +18,31 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage})
+const upload = multer({ storage: storage })
 
 
-router.route('/login').get((req, res) => {
+router.get('/login', login, (req, res) => {
     res.render('login')
 })
 
-router.get('/category',findPostByCategorie)
+router.get('/category', findPostByCategorie)
 
 router.get('/Addcategory', (req, res) => {
     res.render('Addcategorie')
 })
 
 
+router.get('/logout', logout)
+
 // TO handle Admin Login
 router.post('/login', handleAdminLogin)
 
 
-router.get('/panel' ,LoginedUser ,(req, res) => { res.render('adminPanel') })
-router.get('/post/delete/:id',deletePost)
-router.get('/post/:id',setPost)
-router.put('/post/update/:id',UpdatePost)
+
+router.get('/panel', LoginedUser, (req, res) => { res.render('adminPanel') })
+router.get('/post/delete/:id', deletePost)
+router.get('/post/:id', setPost)
+router.put('/post/update/:id', UpdatePost)
 router.post('/submitCategory', addcategory)
 
 
