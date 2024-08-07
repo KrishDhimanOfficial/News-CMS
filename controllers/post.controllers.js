@@ -37,7 +37,7 @@ const find_posts_By_Categories = async (req, res) => {
                     image: 1,
                     description: 1,
                     formattedDate: {
-                        $dateToString: { format: "%Y-%m-%d", date: "$date" }
+                        $dateToString: { format: "%d-%m-%Y", date: "$date" }
                     }
                 }
             }

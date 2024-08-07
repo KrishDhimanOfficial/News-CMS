@@ -2,10 +2,14 @@ const express = require('express');
 const app = express()
 const port = 8000;
 const path = require('path');
+const cookie = require('cookie-parser')
 
 const postRoutes = require('./routes/post.routes');
 const categorieRoutes = require('./routes/categories.routes');
 const adminRoutes = require('./routes/admin.routes')
+
+app.use(cookie())
+
 
 // TO Pass json Data
 app.use(express.json())

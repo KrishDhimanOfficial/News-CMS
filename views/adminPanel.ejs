@@ -11,47 +11,7 @@
 </head>
 
 <body>
-    <!-- HEADER -->
-    <div id="header-admin">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <!-- LOGO -->
-                <div class="col-md-10">
-                    <a href="#"><img class="logo w-25" src="http://localhost:8000/images/news.jpg"></a>
-                </div>
-                <!-- /LOGO -->
-                <!-- LOGO-Out -->
-                <div class="col-md-2 d-flex align-items-center">
-                    <a href="#" class="admin-logout">logout</a>
-                </div>
-                <!-- /LOGO-Out -->
-            </div>
-        </div>
-    </div>
-    <!-- /HEADER -->
-    <!-- Menu Bar -->
-    <div id="admin-menubar">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="admin-menu">
-                        <li>
-                            <a href="#">Post</a>
-                        </li>
-                        <li>
-                            <a href="#">Category</a>
-                        </li>
-                        <li>
-                            <a href="#">Users</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Menu Bar -->
+    <%- include('partials/admin-header') %>
 
     <div id="admin-content">
         <div class="container">
