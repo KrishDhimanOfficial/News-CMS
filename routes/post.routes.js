@@ -1,23 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path')
-const multer = require('multer');
+const upload = require('../middleware/multer.middleware')
 const { findPost, find_posts_By_Categories, find_single_post, searchQuery } = require('../controllers/post.controllers')
 const postControlers = require('../controllers/post.controllers');
-
-
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads')
-    },
-    filename: function (req, file, cb) {
-        const newFileName = Date.now() + path.extname(file.originalname)
-        cb(null, newFileName)
-    }
-})
-
-const upload = multer({ storage: storage })
 
 
 // Route to Render Create post page

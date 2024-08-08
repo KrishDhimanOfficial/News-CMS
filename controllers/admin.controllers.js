@@ -2,7 +2,7 @@ const admin = require('../Models/admin.collections')
 const post = require('../Models/posts.collections');
 const category = require('../Models/categorie.collection')
 const { v4: uuidv4 } = require('uuid')
-const { setUser } = require('../service/auth');
+const  setUser  = require('../service/auth');
 
 
 const handleAdminLogin = async (req, res) => {
@@ -65,8 +65,8 @@ const findPostByCategorie = async (req, res) => {
         {
             $group: {
                 _id: '$categorie_name',
-                posts: { $push: '$posts' },
-                count: { $sum: 1 }
+                post: { $push: '$posts' },
+                count: { $sum: 1 } 
             }
         }
     ])
@@ -75,11 +75,12 @@ const findPostByCategorie = async (req, res) => {
 
 const UpdatePost = async (req, res) => {
     try {
-        console.log(req.params.id);
-        console.log(req.body);
-        res.render('adminPanel')
+        const { title, description, categorie } = req.body;
+        image = req.file.filename
+
+        await post.findByIdAndUpdate({ _id: req.params.id }, { title, description, categorie, image })
+        res.redirect('/admin/panel')
     } catch (error) {
-        console.log(error);
         res.render('updatePost', { error: 'Unsuccessful!' })
     }
 }
