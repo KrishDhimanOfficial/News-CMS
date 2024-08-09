@@ -1,9 +1,9 @@
-function login(req, res, next) {
+async function login(req, res, next) {
     try {
         const userid = req.cookies.uid;
         if (!userid) {
             next();
-        } else{
+        } else {
             res.redirect('/admin/panel')
         }
     } catch (error) {

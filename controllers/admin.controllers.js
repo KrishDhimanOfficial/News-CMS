@@ -1,8 +1,10 @@
-const admin = require('../Models/admin.collections')
+const admin = require('../Models/admin.collections');
+const fs = require('fs');
+const path = require('path')
 const post = require('../Models/posts.collections');
 const category = require('../Models/categorie.collection')
 const { v4: uuidv4 } = require('uuid')
-const  setUser  = require('../service/auth');
+const { setUser } = require('../service/auth');
 
 
 const handleAdminLogin = async (req, res) => {
@@ -21,10 +23,15 @@ const handleAdminLogin = async (req, res) => {
 }
 const deletePost = async (req, res) => {
     try {
-        await post.findByIdAndDelete(req.params.id)
+        const postImage = await post.findOne({ _id: req.params.id });
+        const imagePath = path.join(__dirname, '../uploads', postImage.image);
+        if (fs.existsSync(imagePath)) {
+            fs.rm(imagePath)
+        }
+        await post.findByIdAndDelete({ _id: req.params.id })
         res.render('adminPanel', { message: 'Successfully Deleted!' })
     } catch (error) {
-        res.render('login', { error: 'Unsuccessful!' })
+        res.render('adminPanel', { error: 'Unsuccessful!' })
     }
 }
 
@@ -66,7 +73,7 @@ const findPostByCategorie = async (req, res) => {
             $group: {
                 _id: '$categorie_name',
                 post: { $push: '$posts' },
-                count: { $sum: 1 } 
+                count: { $sum: 1 }
             }
         }
     ])

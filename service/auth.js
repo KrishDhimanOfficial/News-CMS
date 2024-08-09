@@ -3,4 +3,7 @@ const mapUser = new Map();
 function setUser(id, user) {
     mapUser.set(id, user)
 }
-module.exports =  setUser;
+function getUser(id) {
+    return mapUser.get(id)
+}
+module.exports = { setUser, getUser };

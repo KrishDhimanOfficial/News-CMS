@@ -1,7 +1,11 @@
-function LoginedUser(req, res, next) {
+const { getUser } = require('../service/auth')
+
+async function LoginedUser(req, res, next) {
     try {
         const userid = req.cookies.uid;
-        if (!userid) {
+        const user = await getUser(userid)
+        
+        if (!userid && !user) {
             res.redirect('/admin/login')
         }
         next();
