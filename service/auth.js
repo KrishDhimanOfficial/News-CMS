@@ -1,9 +1,13 @@
-const mapUser = new Map();
+const jwt = require('jsonwebtoken')
+const privateKey = '@13A(hgd%@#!7)apE&'
 
-function setUser(id, user) {
-    mapUser.set(id, user)
+function setUser(user) {
+    return jwt.sign(user, privateKey)
 }
-function getUser(id) {
-    return mapUser.get(id)
+function getUser(token) {
+    if(!token){
+        return null;
+    }
+    return jwt.verify(token, privateKey)
 }
 module.exports = { setUser, getUser };

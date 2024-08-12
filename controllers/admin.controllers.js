@@ -3,21 +3,22 @@ const fs = require('fs');
 const path = require('path')
 const post = require('../Models/posts.collections');
 const category = require('../Models/categorie.collection')
-const { v4: uuidv4 } = require('uuid')
 const { setUser } = require('../service/auth');
 
 
 const handleAdminLogin = async (req, res) => {
     try {
-        const user = await admin.findOne(req.body);
-        if (!user) {
-            res.render('login', { error: 'Login Unsuccessful!' })
+        const data = await admin.findOne(req.body);
+        const user = {
+            username: data.username,
+            password: data.password,
         }
-        const sessionid = uuidv4();
-        setUser(sessionid, user);
-        res.cookie('uid', sessionid)
+        if (!user) { res.render('login', { error: 'Login Unsuccessful!' }) }
+        const token = setUser(user)
+        res.cookie('uid', token)
         res.redirect('/admin/panel')
     } catch (error) {
+        console.log(error);
         res.render('login', { error: 'Login Unsuccessful!' })
     }
 }

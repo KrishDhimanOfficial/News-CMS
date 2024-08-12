@@ -1,16 +1,15 @@
 const { getUser } = require('../service/auth')
-
-async function LoginedUser(req, res, next) {
+function LoginedUser(req, res, next) {
     try {
-        const userid = req.cookies.uid;
-        const user = await getUser(userid)
-        
-        if (!userid && !user) {
-            res.redirect('/admin/login')
-        }
+        const token = req.cookies.uid;
+        const user = getUser(token)
+
+        if (!token || !user) return res.redirect('/admin/login')
+            
+        req.user = user;
         next();
     } catch (error) {
-        console.log(error);
+        console.log(`auth ${error}`);
     }
 }
 
