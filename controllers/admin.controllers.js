@@ -1,4 +1,4 @@
-const admin = require('../Models/admin.collections');
+const User = require('../Models/user.collections');
 const fs = require('fs');
 const path = require('path')
 const post = require('../Models/posts.collections');
@@ -8,10 +8,11 @@ const { setUser } = require('../service/auth');
 
 const handleAdminLogin = async (req, res) => {
     try {
-        const data = await admin.findOne(req.body);
+        const data = await User.findOne(req.body);
         const user = {
             username: data.username,
             password: data.password,
+            role: data.role
         }
         if (!user) { res.render('login', { error: 'Login Unsuccessful!' }) }
         const token = setUser(user)
@@ -97,9 +98,56 @@ const logout = (req, res) => {
     res.redirect('/admin/login')
 }
 
+const showAllUser = async (req, res) => {
+    try {
+        const data = await User?.find({})
+        if (!data) return res.redirect('/admin/users')
+        res.render('Allusers', { users: data })
+    } catch (error) {
+        res.render('Allusers', { error: 'Not Found' })
+    }
+};
+
+const adduser = async (req, res) => {
+    try {
+        const { username, email, password, role } = req.body;
+        const data = await User.create({ username, email, password, role })
+        if (!data) { res.redirect('/admin/Alluser') }
+        res.redirect('/admin/users')
+    } catch (error) {
+        res.render('addUser', { error: 'Inserstion Unsucesssful!' })
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        await User.findOneAndDelete({ _id: req.params.id })
+        res.redirect('/admin/users')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const editUserPage = async (req, res) => {
+    try {
+        const data = await User.findOne({ _id: req.params.id })
+        res.render('editUserPage', { user: data })
+    } catch (error) {
+        res.redirect('/admin/users')
+    }
+}
+const editUser = async (req, res) => {
+    try {
+        await User.findOneAndUpdate({ _id: req.params.id }, req.body)
+        res.redirect('/admin/users')
+    } catch (error) {
+        res.render('editUserPage', { error: 'Updation Unsucesssful!' });
+    }
+}
 module.exports = {
     handleAdminLogin, deletePost, setPost, addcategory,
-    findPostByCategorie, UpdatePost, logout
+    findPostByCategorie, UpdatePost, showAllUser, adduser,
+    deleteUser, editUser, editUserPage, logout
 };
 
 

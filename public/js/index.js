@@ -9,7 +9,8 @@ const DisplayPost = async () => {
             <div class="post-content">
             <div class="row">
             <div class="col-md-4">
-            <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'><img src="http://localhost:8000/uploads/${data.image}" alt="" /></a>
+            <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
+            <img src="http://localhost:8000/uploads/${data.image}" alt="" /></a>
             </div>
             <div class="col-md-8">
             <div class="inner-content clearfix">
@@ -38,7 +39,7 @@ const DisplayPost = async () => {
             </div>
             </div>
             `
-            recent_post +=`<div class="recent-post">
+            recent_post += `<div class="recent-post">
                   <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
                   <img src='http://localhost:8000/uploads/${data.image}' : alt="" />
                  </a>
