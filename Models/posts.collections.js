@@ -1,3 +1,4 @@
+// const mongoosePaginate = require('mongoose-paginate-v2');
 const mongoose = require('../Connections/monodb.connection');
 
 const postSchema = mongoose.Schema({
@@ -19,6 +20,6 @@ const postSchema = mongoose.Schema({
     image : String
 })
 
+// postSchema.plugin(mongoosePaginate);
 const postCollection = mongoose.model('posts',postSchema)
-
 module.exports = postCollection;

@@ -3,7 +3,7 @@ const DisplayPosts = async () => {
     const data = api.json();
     data.then((post) => {
         let tablebody = ''
-        post.forEach((data,i) => {
+        post.forEach((data, i) => {
             tablebody += `<tr>
                                 <td class='id'>${i + 1}</td>
                                 <td>${data.title}</td>

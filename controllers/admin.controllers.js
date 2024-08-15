@@ -27,11 +27,11 @@ const deletePost = async (req, res) => {
     try {
         const postImage = await post.findOne({ _id: req.params.id });
         const imagePath = path.join(__dirname, '../uploads', postImage.image);
-        if (fs.existsSync(imagePath)) {
-            fs.rm(imagePath)
-        }
+
+        if (fs.existsSync(imagePath)) { await fs.promises.rm(imagePath); }
         await post.findByIdAndDelete({ _id: req.params.id })
-        res.render('adminPanel', { message: 'Successfully Deleted!' })
+
+        res.redirect('/admin/panel')
     } catch (error) {
         res.render('adminPanel', { error: 'Unsuccessful!' })
     }
@@ -85,9 +85,16 @@ const findPostByCategorie = async (req, res) => {
 const UpdatePost = async (req, res) => {
     try {
         const { title, description, categorie } = req.body;
-        image = req.file.filename
+        image = req.file?.filename;
+        
+        if (image) {
+           const postImage = await post.findOne({ _id: req.params.id })
+           const imagePath = path.join(__dirname, '../uploads', postImage.image);
+           if (fs.existsSync(imagePath)) { await fs.promises.rm(imagePath); }
+        }
+        await post.findByIdAndUpdate({ _id: req.params.id },
+            { title, description, categorie, image })
 
-        await post.findByIdAndUpdate({ _id: req.params.id }, { title, description, categorie, image })
         res.redirect('/admin/panel')
     } catch (error) {
         res.render('updatePost', { error: 'Unsuccessful!' })

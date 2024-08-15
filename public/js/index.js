@@ -5,8 +5,7 @@ const DisplayPost = async () => {
         let post_wrapper = ''
         let recent_post = ''
         post.forEach(data => {
-            post_wrapper += `
-            <div class="post-content">
+            post_wrapper += `<div class="post-content">
             <div class="row">
             <div class="col-md-4">
             <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
@@ -37,8 +36,7 @@ const DisplayPost = async () => {
             </div>
             </div>
             </div>
-            </div>
-            `
+            </div>`
             recent_post += `<div class="recent-post">
                   <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
                   <img src='http://localhost:8000/uploads/${data.image}' : alt="" />
@@ -57,6 +55,7 @@ const DisplayPost = async () => {
                  </div>
             </div>`
         });
+
         document.querySelector('.post-container').insertAdjacentHTML('afterbegin', post_wrapper);
         document.querySelector('.recent-post-container').insertAdjacentHTML('beforeEnd', recent_post);
     })

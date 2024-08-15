@@ -40,9 +40,11 @@
                                 <select id="role" class="form-select" name="role"
                                     aria-label="Default select example" >
                                     <option >Select Role</option>
-                                    <option value="<%= user.role %>" selected>Admin</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="<%= user.role %>" selected >
+                                        <%= user.role %>
+                                    </option>
                                     <option value="user">User</option>
+                                    <option value="admin">Admin</option>
                                 </select>
                             </div>
                             <% if (locals.error) { %>

@@ -40,9 +40,9 @@ app.use('/categories', categorieRoutes)
 // Admin Routes
 app.use('/admin', adminRoutes)
 
+
 app.use('/', (req, res) => {
     res.render('index')
 })
-
 
 app.listen(port, console.log('Running...'))

@@ -6,18 +6,14 @@ const findPost = async (req, res) => {
         const data = await post.aggregate([
             {
                 $project: {
-                    title: 1,
-                    date: 1,
-                    categorie: 1,
-                    image: 1,
-                    description: 1,
+                    title: 1, categorie: 1, image: 1, description: 1,
                     formattedDate: {
-                        $dateToString: { format: "%Y-%m-%d", date: "$date" }
+                        $dateToString: { format: "%d/%m/%Y", date: "$date" }
                     }
                 }
-            },
-        ]).limit(4)
-        res.json(data)
+            }
+        ]).limit(5)
+       res.json(data)
     } catch (error) {
         res.status(404).json({ error: 'Not Found' })
     }

@@ -21,7 +21,7 @@ router.get('/users', showAllUser)
 router.post('/submituser', adduser)
 router.get('/user/:id', deleteUser);
 router.get('/user/:id/edit', editUserPage);
-router.get('/edituser/:id', editUser);
+router.post('/edituser/:id', editUser);
 router.get('/adduser', (req, res) => {
     res.render('addUser')
 })

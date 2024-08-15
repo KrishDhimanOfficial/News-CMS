@@ -4,12 +4,16 @@ function LoginedUser(req, res, next) {
         const token = req.cookies?.uid;
 
         const user = getUser(token)
-
         if (!token || !user) return res.redirect('/admin/login')
-        if (user.role == 'admin') { req.user = user; next(); }
-        if (user.role == 'user') return res.redirect('/')
-
-        res.redirect('/admin/login')
+        switch (user.role) {
+            case 'admin':
+                req.user = user;
+                return next();
+            case 'user':
+                return res.redirect('/');
+            default:
+                return res.redirect('/');
+        }
     } catch (error) {
         console.log(`auth : ${error}`);
     }

@@ -18,7 +18,7 @@ const DisplayPost = async () => {
     const data = api.json();
     data.then((post) => {
         let recent_post = ''
-        post.forEach((data,i) => {
+        post.forEach(data => {
             recent_post += `<div class="recent-post">
                   <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
                   <img src='http://localhost:8000/uploads/${data.image}' : alt="" />
