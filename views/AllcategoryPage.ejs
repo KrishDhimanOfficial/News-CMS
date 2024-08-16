@@ -29,31 +29,38 @@
                                 <th>No. of Posts</th>
                             </thead>
                             <tbody>
-                                <% categoryBypostCount.forEach((data,i)=> { %>
-                                    <tr>
-                                        <td class='id'>
-                                            <%= i + 1 %>
-                                        </td>
-                                        <td>
-                                            <%= data._id %>
-                                        </td>
-                                        <td>
-                                            <%= data.count %>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
+                                <% if (locals.data.collectionData) { %>
+                                    <% data.collectionData.forEach(category=> { %>
+                                        <tr>
+                                            <td class='id'>
+                                                <%= data.pageCounter++ %>
+                                            </td>
+                                            <td>
+                                                <%= category._id %>
+                                            </td>
+                                            <td>
+                                                <%= category.count %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                <% } %>
                             </tbody>
                         </table>
                         <ul class='pagination admin-pagination'>
-                            <li><a class="btn btn-primary">1</a></li>
-                            <li><a class="btn btn-primary">2</a></li>
-                            <li><a class="btn btn-primary">3</a></li>
+                            <% if (data.totalPages && data.totalDocs> data.limit ) { %>
+                                <% for( let i=1; i <=data.totalPages; ++i ) { %>
+                                    <li>
+                                        <a href="?page=<%= i %>" class="btn btn-primary">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            <% } %>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="/js/admin.js"></script>
 </body>
 
 </html>

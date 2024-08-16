@@ -1,21 +1,24 @@
 const post = require('../Models/posts.collections');
+const handelAggregatePagination = require('../service/handlePaginate.Aggregation')
+
+
 
 // find Posts
 const findPost = async (req, res) => {
     try {
-        const data = await post.aggregate([
-            {
-                $project: {
-                    title: 1, categorie: 1, image: 1, description: 1,
-                    formattedDate: {
-                        $dateToString: { format: "%d/%m/%Y", date: "$date" }
-                    }
+        const projection =[{
+            $project: {
+                title: 1, categorie: 1, image: 1, description: 1,
+                formattedDate: {
+                    $dateToString: { format: "%d-%m-%Y", date: "$date" }
                 }
             }
-        ]).limit(5)
-       res.json(data)
+        }]
+        const data = await handelAggregatePagination(post, projection, req.query)
+        res.json(data)
     } catch (error) {
-        res.status(404).json({ error: 'Not Found' })
+        console.log(error.meassage);
+
     }
 }
 

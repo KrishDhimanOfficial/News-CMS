@@ -33,34 +33,41 @@
                                 <th>Delete</th>
                             </thead>
                             <tbody id="UserBody">
-                                <% users.forEach((user,i)=> { %>
-                                    <tr>
-                                        <td class='id'>
-                                            <%= i + 1 %>
-                                        </td>
-                                        <td>
-                                            <%= user.username %>
-                                        </td>
-                                        <td>
-                                            <%= user.email %>
-                                        </td>
-                                        <td>
-                                            <%= user.role %>
-                                        </td>
-                                        <td>
-                                            <a href="http://localhost:8000/admin/user/<%= user._id %>/edit">Edit</a>
-                                        </td>
-                                        <td>
-                                            <a href="http://localhost:8000/admin/user/<%= user._id %>">Delete</a>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
+                                <% if (locals.data.collectionData) { %>
+                                    <% data.collectionData.forEach(user=> { %>
+                                        <tr>
+                                            <td class='id'>
+                                                <%= data.pageCounter++ %>
+                                            </td>
+                                            <td>
+                                                <%= user.username %>
+                                            </td>
+                                            <td>
+                                                <%= user.email %>
+                                            </td>
+                                            <td>
+                                                <%= user.role %>
+                                            </td>
+                                            <td>
+                                                <a href="http://localhost:8000/admin/user/<%= user._id %>/edit">Edit</a>
+                                            </td>
+                                            <td>
+                                                <a href="http://localhost:8000/admin/user/<%= user._id %>">Delete</a>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } %>
                             </tbody>
                         </table>
                         <ul class='pagination admin-pagination'>
-                            <li><a class="btn btn-primary">1</a></li>
-                            <li><a class="btn btn-primary">2</a></li>
-                            <li><a class="btn btn-primary">3</a></li>
+                            <% const paginate=locals.data %>
+                                <% if (paginate.totalPages && paginate.totalDocs> paginate.limit ) { %>
+                                    <% for( let i=1; i <=paginate.totalPages; ++i ) { %>
+                                        <li><a href="?page=<%= i %>" class="btn btn-primary">
+                                                <%= i %>
+                                            </a></li>
+                                        <% } %>
+                                            <% } %>
                         </ul>
                     </div>
                 </div>
@@ -69,7 +76,6 @@
         </div>
         </div>
         <%- include('partials/footer') %>
-            <script src="/js/admin.js"></script>
 </body>
 
 </html>

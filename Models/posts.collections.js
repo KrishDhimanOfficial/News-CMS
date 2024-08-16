@@ -1,25 +1,25 @@
-// const mongoosePaginate = require('mongoose-paginate-v2');
+const mongoosePaginate = require('mongoose-aggregate-paginate-v2');
 const mongoose = require('../Connections/monodb.connection');
 
 const postSchema = mongoose.Schema({
-    title : {
+    title: {
         type: String,
-        required : true
+        required: true
     },
-    description : {
+    description: {
         type: String,
-        required : true
+        required: true
     },
     categorie: {
         type: String,
-        required : true
+        required: true
     },
-    date:{
+    date: {
         type: Date
     },
-    image : String
+    image: String
 })
 
-// postSchema.plugin(mongoosePaginate);
-const postCollection = mongoose.model('posts',postSchema)
-module.exports = postCollection;
+postSchema.plugin(mongoosePaginate);
+// const postCollection = mongoose.model('posts',postSchema)
+module.exports = mongoose.model('posts', postSchema);

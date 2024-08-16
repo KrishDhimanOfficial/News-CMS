@@ -1,3 +1,4 @@
+const mongoosePaginate = require('mongoose-aggregate-paginate-v2');
 const mongoose = require('../Connections/monodb.connection')
 
 const userSchema = mongoose.Schema({
@@ -19,5 +20,6 @@ const userSchema = mongoose.Schema({
     }
 })
 
-const usercollection = mongoose.model('user',userSchema)
-module.exports = usercollection;
+userSchema.plugin(mongoosePaginate);
+// const usercollection = mongoose.model('user',userSchema)
+module.exports = mongoose.model('user',userSchema);

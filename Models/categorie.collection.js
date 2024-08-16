@@ -1,3 +1,4 @@
+const mongoosePaginate = require('mongoose-aggregate-paginate-v2');
 const mongoose = require('../Connections/monodb.connection');
 
 const categorieSchema = mongoose.Schema({
@@ -7,6 +8,6 @@ const categorieSchema = mongoose.Schema({
     }
 })
 
-const categorieCollection = mongoose.model('categorie',categorieSchema)
-
-module.exports = categorieCollection;
+categorieSchema.plugin(mongoosePaginate);
+// const categorieCollection = mongoose.model('categorie',categorieSchema)
+module.exports = mongoose.model('categorie',categorieSchema);

@@ -1,10 +1,22 @@
 const DisplayPost = async () => {
-    const api = await fetch('http://localhost:8000/post/api/findPosts')
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const getPage = urlParams.get('page')
+    // console.log("Page : " + getPage);
+    if (getPage) {
+        var apiURL = `http://localhost:8000/post/api/findPosts?page=${getPage}`
+    } else {
+        var apiURL = 'http://localhost:8000/post/api/findPosts'
+    }
+    const api = await fetch(apiURL)
     const data = api.json();
-    data.then((post) => {
+
+    data.then((doc) => {
         let post_wrapper = ''
         let recent_post = ''
-        post.forEach(data => {
+        let paginate = ''
+        doc.collectionData.forEach(data => {
             post_wrapper += `<div class="post-content">
             <div class="row">
             <div class="col-md-4">
@@ -55,12 +67,13 @@ const DisplayPost = async () => {
                  </div>
             </div>`
         });
-
+        for (let i = 1; i <= doc.totalPages; i++) {
+            paginate += `<li><a href="?page=${i}" class="btn btn-primary">${i}</a></li>`
+        }
+        document.querySelector('.pagination').insertAdjacentHTML('afterbegin', paginate);
         document.querySelector('.post-container').insertAdjacentHTML('afterbegin', post_wrapper);
         document.querySelector('.recent-post-container').insertAdjacentHTML('beforeEnd', recent_post);
     })
-
-
 }
 // Display Posts ON Index Page
 DisplayPost()
