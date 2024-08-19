@@ -6,7 +6,7 @@ const handelAggregatePagination = require('../service/handlePaginate.Aggregation
 // find Posts
 const findPost = async (req, res) => {
     try {
-        const projection =[{
+        const projection = [{
             $project: {
                 title: 1, categorie: 1, image: 1, description: 1,
                 formattedDate: {
@@ -18,7 +18,6 @@ const findPost = async (req, res) => {
         res.json(data)
     } catch (error) {
         console.log(error.meassage);
-
     }
 }
 
@@ -59,13 +58,23 @@ const find_single_post = async (req, res) => {
 const searchQuery = async (req, res) => {
     try {
         const search = req.query.search;
-        const data = await post.find({ title: { $regex: search, $options: "i" } })
-        res.render('searchResult', { post: data })
-        if (!data) {
-            return res.json('Not Found')
+        const pattern = { $regex: search, $options: "i" }
+        const projection = [{
+            $match: { $or: [
+                    { title: pattern },
+                    { description: pattern },
+                    { categorie: pattern }
+                ]}
+        }]
+        const data = await handelAggregatePagination(post, projection, req.query)
+
+        if (!search) { res.redirect('/') }
+        if (!data || data.collectionData.length === 0) {
+            res.render('searchResult', { message: 'Not Found' });
         }
+        res.render('searchResult', { data })
     } catch (error) {
-        return res.json(error)
+        res.json(error)
     }
 }
 module.exports = { findPost, find_posts_By_Categories, find_single_post, searchQuery };

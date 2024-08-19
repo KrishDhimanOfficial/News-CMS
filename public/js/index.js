@@ -1,9 +1,8 @@
 const DisplayPost = async () => {
-    const queryString = window.location.search;
+    const queryString = window.location.search;    
     const urlParams = new URLSearchParams(queryString);
 
     const getPage = urlParams.get('page')
-    // console.log("Page : " + getPage);
     if (getPage) {
         var apiURL = `http://localhost:8000/post/api/findPosts?page=${getPage}`
     } else {

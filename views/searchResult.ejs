@@ -23,45 +23,79 @@
                         <div class="col-md-8">
                             <!-- post-container -->
                             <div class="post-container">
-                                <% post.forEach(post => { %>
-                                    <div class="post-content"> 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <a class="post-img" href="http://localhost:8000/post/singlepost/<%= post._id %>"><img src=http://localhost:8000/uploads/<%= post.image %> alt="" /></a>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="inner-content clearfix">
-                                                    <h3><a href='http://localhost:8000/post/singlepost/<%= post._id %>'><%= post.title %></a></h3>
-                                                    <div class="post-information">
-                                                        <span>
-                                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                                            <a href='category.php'><%= post.categorie %></a>
-                                                        </span>
-                                                        <span>
-                                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                                            <a href='author.php'>author</a>
-                                                        </span>
-                                                        <span>
-                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-    
-                                                        <a href='http://localhost:8000/post/singlepost/post/<%= post._id %>'> <%= post.formattedDate %></a>
-                                                        </span>
-                                                    </div>
-                                                    <p class="description">
-                                                        <%= post.description %>
-                                                    </p>
-                                                    <a class='read-more pull-right' href="http://localhost:8000/post/singlepost/<%= post._id %>">read more</a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <% if (locals.message) { %>
+                                    <div class="alert alert-light" role="alert">
+                                        <%= locals.message %>
                                     </div>
-                                <% }) %>
+                                    <% } %>
 
-                                <ul class='pagination'>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                </ul>
+                                        <% if (locals.data) { %>
+                                            <% data.collectionData.forEach(post=> { %>
+                                                <div class="post-content">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <a class="post-img"
+                                                                href="http://localhost:8000/post/singlepost/<%= post._id %>">
+                                                                <img src=http://localhost:8000/uploads/<%=post.image %>
+                                                                alt="" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="inner-content clearfix">
+                                                                <h3>
+                                                                    <a
+                                                                        href='http://localhost:8000/post/singlepost/<%= post._id %>'>
+                                                                        <%= post.title %>
+                                                                    </a>
+                                                                </h3>
+                                                                <div class="post-information">
+                                                                    <span>
+                                                                        <i class="fa fa-tags" aria-hidden="true"></i>
+                                                                        <a href='category.php'>
+                                                                            <%= post.categorie %>
+                                                                        </a>
+                                                                    </span>
+                                                                    <span>
+                                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                                        <a href='author.php'>author</a>
+                                                                    </span>
+                                                                    <span>
+                                                                        <i class="fa fa-calendar"
+                                                                            aria-hidden="true"></i>
+                                                                        <a
+                                                                            href='http://localhost:8000/post/singlepost/post/<%= post._id %>'>
+                                                                            <%= post.formattedDate %>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="description">
+                                                                    <%= post.description %>
+                                                                </p>
+                                                                <a class='read-more pull-right'
+                                                                    href="http://localhost:8000/post/singlepost/<%= post._id %>">read
+                                                                    more</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                                    <% } %>
+                                                    <!-- Pagination -->
+                                                        <ul class='pagination'>
+                                                            <% const paginate = locals.data %>
+                                                                <% if (paginate) { %>
+                                                                    <% if (paginate.totalPages && paginate.totalDocs > paginate.limit ) { %>
+                                                                        <% for( let i=1; i <=paginate.totalPages; ++i ) { %>
+                                                                            <li>
+                                                                                <a href="?page=<%= i %>"
+                                                                                    class="btn btn-primary">
+                                                                                    <%= i %>
+                                                                                </a>
+                                                                            </li>
+                                                                        <% } %>
+                                                                    <% } %>
+                                                                <% } %>
+                                                        </ul>
                             </div>
                             <!-- /post-container -->
 
@@ -75,7 +109,7 @@
         </div>
     </div>
     <%- include('partials/footer') %>
-    <script src="/js/script.js"></script>
+        <script src="/js/script.js"></script>
 </body>
 
 </html>
