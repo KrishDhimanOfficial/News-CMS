@@ -19,9 +19,13 @@ const DisplayPost = async () => {
     data.then((post) => {
         let recent_post = ''
         post.collectionData.forEach(data => {
+            const video = `<video loop autoplay muted >
+            <source src="http://localhost:8000/uploads/${data.image}" type="video/mp4">
+            </video>`
+            const image = `<img src="http://localhost:8000/uploads/${data.image}" alt="" />`
             recent_post += `<div class="recent-post">
                   <a class="post-img" href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>
-                  <img src='http://localhost:8000/uploads/${data.image}' : alt="" />
+                  ${data.image.split('.')[1] === 'mp4' ? video : image}
                  </a>
                   <div class="post-content">
                   <h5><a href="http://localhost:8000/post/singlepost/${data._id}" target='_blank'>${data.title}</a></h5>

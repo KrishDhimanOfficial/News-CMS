@@ -1,23 +1,31 @@
-const User = require('../Models/user.collections');
-const post = require('../Models/posts.collections');
+const User = require('../Models/user.collections')
+const post = require('../Models/posts.collections')
 const category = require('../Models/categorie.collection')
-const { setUser } = require('../service/auth');
+const { setUser } = require('../service/auth')
 const deleteImage = require('../service/deleteUploadImage')
+const bcrypt = require('bcryptjs')
 const handelAggregatePagination = require('../service/handlePaginate.Aggregation')
 
 // Login OPERATION
 const handleAdminLogin = async (req, res) => {
     try {
-        const data = await User.findOne(req.body);
-        const user = {
-            username: data.username,
-            password: data.password,
-            role: data.role
+        const { username, password } = req.body;
+        const data = await User.findOne({ username })
+        const comparePassword = await bcrypt.compare(password, data.password)
+
+        if (comparePassword) {
+            const user = {
+                username: data.username,
+                password: data.password,
+                role: data.role
+            }
+
+            if (!user) { res.render('login', { error: 'Login Unsuccessful!' }) }
+            const token = setUser(user)
+            res.cookie('uid', token)
+            res.redirect('/admin/panel') 
         }
-        if (!user) { res.render('login', { error: 'Login Unsuccessful!' }) }
-        const token = setUser(user)
-        res.cookie('uid', token)
-        res.redirect('/admin/panel')
+
     } catch (error) {
         console.log(error);
         res.render('login', { error: 'Login Unsuccessful!' })
@@ -107,7 +115,7 @@ const showAllUser = async (req, res) => {
             $project: { username: 1, role: 1, email: 1 }
         }]
         const data = await handelAggregatePagination(User, projection, req.query)
-        
+
         res.render('Allusers', { data })
     } catch (error) {
         res.render('Allusers', { error: 'Not Found' })
@@ -116,7 +124,11 @@ const showAllUser = async (req, res) => {
 const adduser = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
-        const data = await User.create({ username, email, password, role })
+        const data = await User.create({
+            username, email,
+            password: await bcrypt.hash(password, 10),
+            role
+        })
         if (!data) { res.redirect('/admin/Alluser') }
         res.redirect('/admin/users')
     } catch (error) {

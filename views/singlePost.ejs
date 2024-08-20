@@ -23,36 +23,40 @@
                         <div class="col-md-8">
                             <!-- post-container -->
                             <div class="post-container">
-                                <div class="post-content single-post">
-                                    <h3>
-                                        <%= post.title %>
-                                    </h3>
-                                    <div class="post-information">
-                                        <span>
-                                            <i class="fa fa-tags" aria-hidden="true"></i>
-                                            <%= post.categorie %>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php'>Admin</a>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            <%= post.formattedDate %>
-                                        </span>
-                                    </div>
-                                    <img class="single-feature-image"
-                                        src="http://localhost:8000/uploads/<%= post.image %>" alt="" />
-                                    <p class="description">
-                                    <%= post.description %>
-                                    </p>
-                                </div>
+                                <% if (locals.post) { %>
+                                    <div class="post-content single-post">
+                                        <h3>
+                                            <%= post.title %>
+                                        </h3>
+                                        <div class="post-information">
+                                            <span>
+                                                <i class="fa fa-tags" aria-hidden="true"></i>
+                                                <%= post.categorie %>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                <a href='author.php'>Admin</a>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                <%= post.formattedDate %>
+                                            </span>
+                                        </div>
+                                        <% if (post.image.split('.')[1]==='mp4' ) { %>
+                                            <video loop autoplay muted height="300px">
+                                                <source src="http://localhost:8000/uploads/<%= post.image %>"
+                                                    type="video/mp4">
+                                            </video>
+                                            <% } else { %>
+                                                <img class="single-feature-image"
+                                                    src="http://localhost:8000/uploads/<%= post.image %>" alt="" />
+                                                <% } %>
 
-                                <ul class='pagination'>
-                                    <li class="page-item"><a class="page-link" href="/">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="/">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="/">3</a></li>
-                                </ul>
+                                                    <p class="description">
+                                                        <%= post.description %>
+                                                    </p>
+                                    </div>
+                                    <% } %>
                             </div>
 
                             <!-- /post-container -->
@@ -68,7 +72,7 @@
 
     </div>
     <%- include('partials/footer') %>
-        <script src="/js/script.js"></script>
+        <script src="/js/script.js" async></script>
 </body>
 
 </html>

@@ -6,14 +6,19 @@ const handelAggregatePagination = require('../service/handlePaginate.Aggregation
 // find Posts
 const findPost = async (req, res) => {
     try {
-        const projection = [{
-            $project: {
-                title: 1, categorie: 1, image: 1, description: 1,
-                formattedDate: {
-                    $dateToString: { format: "%d-%m-%Y", date: "$date" }
+        const projection = [
+            {
+                $project: {
+                    title: 1, categorie: 1, image: 1, description: 1,
+                    formattedDate: {
+                        $dateToString: { format: "%d-%m-%Y", date: "$date" }
+                    }
                 }
+            },
+            {
+                $sort: { formattedDate: -1 }
             }
-        }]
+        ]
         const data = await handelAggregatePagination(post, projection, req.query)
         res.json(data)
     } catch (error) {
@@ -24,7 +29,7 @@ const findPost = async (req, res) => {
 // find_posts_By_Categories
 const find_posts_By_Categories = async (req, res) => {
     try {
-        const data = await post.aggregate([
+        const projection = ([
             {
                 $match: { categorie: req.params.categorie }
             },
@@ -40,7 +45,11 @@ const find_posts_By_Categories = async (req, res) => {
                 }
             }
         ])
-        res.render('categoriePost', { post: data })
+        const data = await handelAggregatePagination(post, projection, req.query)
+        if (!data || data.collectionData.length === 0) {
+            res.render('searchResult', { message: 'Not Found' });
+        }
+        res.render('categoriePost', { data })
     } catch (error) {
         res.status(404).json({ error: 'Not Found' });
     }
@@ -60,11 +69,13 @@ const searchQuery = async (req, res) => {
         const search = req.query.search;
         const pattern = { $regex: search, $options: "i" }
         const projection = [{
-            $match: { $or: [
+            $match: {
+                $or: [
                     { title: pattern },
                     { description: pattern },
                     { categorie: pattern }
-                ]}
+                ]
+            }
         }]
         const data = await handelAggregatePagination(post, projection, req.query)
 
