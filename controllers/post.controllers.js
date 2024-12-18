@@ -20,6 +20,8 @@ const findPost = async (req, res) => {
             }
         ]
         const data = await handelAggregatePagination(post, projection, req.query)
+        console.log(data);
+        
         res.json(data)
     } catch (error) {
         console.log(error.meassage);
