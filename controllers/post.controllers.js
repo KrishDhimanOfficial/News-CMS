@@ -2,7 +2,6 @@ const post = require('../Models/posts.collections');
 const handelAggregatePagination = require('../service/handlePaginate.Aggregation')
 
 
-
 // find Posts
 const findPost = async (req, res) => {
     try {
@@ -20,9 +19,7 @@ const findPost = async (req, res) => {
             }
         ]
         const data = await handelAggregatePagination(post, projection, req.query)
-        console.log(data);
-        
-        res.json(data)
+        return res.json(data)
     } catch (error) {
         console.log(error.meassage);
     }
@@ -49,7 +46,7 @@ const find_posts_By_Categories = async (req, res) => {
         ])
         const data = await handelAggregatePagination(post, projection, req.query)
         if (!data || data.collectionData.length === 0) {
-            res.render('searchResult', { message: 'Not Found' });
+            return res.render('searchResult', { message: 'Not Found' });
         }
         res.render('categoriePost', { data })
     } catch (error) {
@@ -83,11 +80,11 @@ const searchQuery = async (req, res) => {
 
         if (!search) { res.redirect('/') }
         if (!data || data.collectionData.length === 0) {
-            res.render('searchResult', { message: 'Not Found' });
+            return res.render('searchResult', { message: 'Not Found' });
         }
-        res.render('searchResult', { data })
+        return res.render('searchResult', { data })
     } catch (error) {
-        res.json(error)
+        return res.json(error)
     }
 }
 module.exports = { findPost, find_posts_By_Categories, find_single_post, searchQuery };
@@ -99,10 +96,10 @@ module.exports.createPost = async (req, res) => {
         date = new Date()
         image = req.file.filename
         const data = await post.create({ title, description, date, categorie, image })
-        res.redirect('/admin/panel')
         if (!data) {
-            res.status(404).redirect('/post/createpost')
+            return res.status(404).redirect('/post/createpost')
         }
+        return res.redirect('/admin/panel')
     } catch (error) {
         res.json({ error: 'Create Post Unscucessfull!' })
     }
