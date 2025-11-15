@@ -7,7 +7,6 @@ const cookie = require('cookie-parser')
 const postRoutes = require('./routes/post.routes');
 const categorieRoutes = require('./routes/categories.routes');
 const adminRoutes = require('./routes/admin.routes')
-
 app.use(cookie())
 
 
@@ -18,15 +17,15 @@ app.use(express.urlencoded({ extended: false }))
 
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 // Serve Imagess from the "Uploads" directory
-app.use(express.static(path.join(__dirname, '/')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 
 
 // Setup View ENgine To Excute EJS File
-app.set('views', path.join(__dirname, 'views'));
+app.use('views', express.static(path.join(__dirname, 'views')))
 app.set('view engine', 'ejs')
 app.set('views', 'views');
 
@@ -41,8 +40,6 @@ app.use('/categories', categorieRoutes)
 app.use('/admin', adminRoutes)
 
 
-app.use('/', (req, res) => {
-    res.render('index')
-})
+app.use('/', (req, res) => res.render('index'))
 
-app.listen(port, console.log('Running...'))
+module.exports = app

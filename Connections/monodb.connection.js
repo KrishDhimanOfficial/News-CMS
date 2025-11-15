@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config()
 
-
-mongoose.connect('mongodb://localhost:27017/NewsSite')
+mongoose.connect(process.env.DB_LINK)
     .then(() => {
         console.log('MongoDB Connected!')
     }).catch((error) => {
