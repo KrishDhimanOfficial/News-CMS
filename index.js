@@ -42,5 +42,4 @@ app.use('/admin', adminRoutes)
 
 app.use('/', (req, res) => res.render('index'))
 
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+module.exports = app
